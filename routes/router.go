@@ -15,8 +15,10 @@ func Router() *echo.Echo {
 	e.POST("/customers", handlers.CreateCustomer)
 	e.GET("/customers/:id", handlers.GetCustomer)
 	e.PUT("/customers/:id", handlers.UpdateCustomer)
+	e.POST("/subscriptions", handlers.CreateSubscription)
 	e.GET("/customers/:id/subscriptions", handlers.GetActiveSubscriptions)
 	e.POST("/invoices", handlers.CreateInvoice)
+	e.GET("/invoices/price", handlers.CalculateInvoicePrice)
 
 	return e
 }
