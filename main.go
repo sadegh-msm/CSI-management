@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 )
 
 type Server struct {
@@ -30,10 +31,16 @@ func main() {
 	}
 
 	handlers.SetDB(db)
-
 	defer db.Close()
 
 	e := routes.Router()
+
+	ticker := time.NewTicker(10 * time.Minute)
+	go func() {
+		for range ticker.C {
+			handlers.CalculateSubscriptionCharges()
+		}
+	}()
 
 	s := Server{
 		Port: "8080",

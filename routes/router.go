@@ -19,6 +19,7 @@ func Router() *echo.Echo {
 	e.GET("/customers/:id/subscriptions", handlers.GetActiveSubscriptions)
 	e.POST("/invoices", handlers.CreateInvoice)
 	e.GET("/invoices/price", handlers.CalculateInvoicePrice)
+	e.PUT("/customers/:customer_id/subscriptions/:subscription_id/close", handlers.CloseSubscription)
 
 	return e
 }
