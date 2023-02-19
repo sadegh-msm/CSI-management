@@ -12,14 +12,18 @@ func Router() *echo.Echo {
 
 	e.Use(middleware.Logger())
 
-	e.POST("/customers", handlers.CreateCustomer)
-	e.GET("/customers/:id", handlers.GetCustomer)
-	e.PUT("/customers/:id", handlers.UpdateCustomer)
-	e.POST("/subscriptions", handlers.CreateSubscription)
-	e.GET("/customers/:id/subscriptions", handlers.GetActiveSubscriptions)
-	e.POST("/invoices", handlers.CreateInvoice)
-	e.GET("/invoices/price", handlers.CalculateInvoicePrice)
-	e.PUT("/customers/:customer_id/subscriptions/:subscription_id/close", handlers.CloseSubscription)
+	e.POST("/customers", handlers.CreateCustomerHandler)
+	e.GET("/customers/:id", handlers.GetCustomerHandler)
+	e.DELETE("/customers/:id", handlers.DeleteCustomerHandler)
+
+	e.POST("/subscriptions", handlers.CreateSubscriptionHandler)
+	e.GET("/subscriptions/:id", handlers.GetSubscriptionHandler)
+	e.DELETE("/subscriptions/:id", handlers.DeleteSubscriptionHandler)
+
+	e.GET("/invoices/:id", handlers.GetInvoiceHandler)
+	e.PUT("/invoices/:id/charge", handlers.ChargeInvoiceHandler)
+	e.DELETE("/invoices/:id", handlers.DeleteInvoiceHandler)
+	e.GET("/invoices", handlers.ListInvoicesHandler)
 
 	return e
 }

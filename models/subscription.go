@@ -1,10 +1,13 @@
 package models
 
+import "time"
+
 type Subscription struct {
-	ID         int64   `json:"id"`
-	Name       string  `json:"name"`
-	Price      float64 `json:"price"`
-	IsActive   bool    `json:"is_active"`
-	Period     int     `json:"period"`
-	CustomerID int64   `json:"customer_id"`
+	ID         int       `json:"id"`
+	CustomerID int       `json:"customer_id"`
+	Plan       string    `json:"plan"`
+	Duration   int       `json:"duration"`
+	Price      float64   `json:"price"`
+	ExpiresAt  time.Time `json:"expires_at"`
+	CreatedAt  time.Time `json:"created_at"`
 }

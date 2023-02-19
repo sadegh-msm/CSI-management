@@ -5,9 +5,9 @@ import (
 )
 
 type Invoice struct {
-	ID             int64     `json:"id"`
-	StartTime      time.Time `json:"start_time"`
-	EndTime        time.Time `json:"end_time"`
+	ID             int       `json:"id"`
+	CustomerID     int       `json:"customer_id"`
+	SubscriptionID int       `json:"subscription_id"`
 	Amount         float64   `json:"amount"`
-	SubscriptionID int64     `json:"subscription_id"`
+	CreatedAt      time.Time `json:"created_at"`
 }
