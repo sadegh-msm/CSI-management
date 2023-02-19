@@ -21,6 +21,7 @@ func Router() *echo.Echo {
 	e.DELETE("/subscriptions/:id", handlers.DeleteSubscriptionHandler)
 
 	e.GET("/invoices/:id", handlers.GetInvoiceHandler)
+	e.POST("/invoices", handlers.CreateInvoiceHandler)
 	e.PUT("/invoices/:id/charge", handlers.ChargeInvoiceHandler)
 	e.DELETE("/invoices/:id", handlers.DeleteInvoiceHandler)
 	e.GET("/invoices", handlers.ListInvoicesHandler)

@@ -205,3 +205,48 @@ func ListInvoicesHandler(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, invoices)
 }
+
+func CreateInvoiceHandler(c echo.Context) error {
+	var invoice models.Invoice
+
+	// Bind the request body to the invoice struct
+	if err := c.Bind(&invoice); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+	}
+
+	// Retrieve the subscription from the database
+	var subscription models.Subscription
+	if err := db.QueryRow("SELECT id, customer_id, price FROM subscriptions WHERE id = ?", invoice.SubscriptionID).Scan(&subscription.ID, &subscription.CustomerID, &subscription.Price); err != nil {
+		if err == sql.ErrNoRows {
+			return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid subscription ID"})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to retrieve subscription"})
+	}
+
+	// Retrieve the customer from the database
+	var customer models.Customer
+	if err := db.QueryRow("SELECT id, name, email, credit FROM customers WHERE id = ?", subscription.CustomerID).Scan(&customer.ID, &customer.Name, &customer.Email, &customer.Credit); err != nil {
+		if err == sql.ErrNoRows {
+			return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid customer ID"})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to retrieve customer"})
+	}
+
+	// Calculate the amount for the invoice
+	invoice.Amount = subscription.Price
+
+	// Create the invoice
+	result, err := db.Exec("INSERT INTO invoices (subscription_id, amount) VALUES (?, ?)", invoice.SubscriptionID, invoice.Amount)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to create invoice"})
+	}
+
+	// Get the ID of the created invoice
+	invoiceID, err := result.LastInsertId()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to retrieve invoice ID"})
+	}
+	invoice.ID = int(invoiceID)
+
+	return c.JSON(http.StatusCreated, invoice)
+}
