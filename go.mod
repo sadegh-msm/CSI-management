@@ -1,4 +1,4 @@
-module abrnoc_ch
+module CSI-management
 
 go 1.19
 

@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"abrnoc_ch/handlers"
+	"CSI-management/handlers"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )

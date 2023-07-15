@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"abrnoc_ch/models"
+	"CSI-management/models"
 	"database/sql"
 	"github.com/labstack/echo/v4"
 	"log"

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"abrnoc_ch/handlers"
-	"abrnoc_ch/routes"
+	"CSI-management/handlers"
+	"CSI-management/routes"
 	"database/sql"
 	_ "github.com/lib/pq"
 	"log"
